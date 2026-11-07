@@ -251,7 +251,23 @@ DesktopFarmTests/ 53 个 XCTest：安全加固、防作弊、模拟、恢复、�
 
 ---
 
-## 🚀 快速开始
+## 📦 下载与安装 (Installation)
+
+1. 前往 [GitHub Releases](https://github.com/patrick091210-arch/DesktopFarm/releases) 下载最新版本的 **`DesktopHarvest-v1.0.0.dmg`** 安装包（Universal Binary，原生支持 Apple Silicon `arm64` 与 Intel `x86_64`）。
+2. 双击挂载 `.dmg` 镜像，在弹出的窗口中将 **`DesktopHarvest.app`** 拖入右侧的 **`Applications`（应用程序）** 文件夹。
+3. 启动应用后，请查看屏幕右上角菜单栏的 **`🌾 120`** 图标（点击即可打开农场控制台）。
+
+> [!IMPORTANT]
+> **首次打开若提示「无法验证开发者」或「已损坏」？**  
+> 由于本项目采用本地 Ad-hoc 签名分发且未交纳 Apple 开发者年费公证，首次从浏览器下载打开若遇到 macOS Gatekeeper 拦截，请在终端运行以下命令解除隔离属性：
+> ```bash
+> sudo xattr -rd com.apple.quarantine /Applications/DesktopHarvest.app
+> ```
+> 执行后即可直接双击打开，或按住 `Control` 键右键点击应用图标选择「打开」。
+
+---
+
+## 🚀 快速开始（从源码构建 & 打包 DMG）
 
 **环境要求**：macOS 14.0+，安装了 Xcode（Swift 6，macOS SDK）。不需要任何包管理器。
 
@@ -261,12 +277,13 @@ git clone https://github.com/patrick091210-arch/DesktopFarm.git && cd DesktopFar
 # 如果 xcode-select 指向的是 Command Line Tools，需要加上这一行
 export DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer
 
-# 构建
+# 构建 Debug 版并直接运行
 xcodebuild -project DesktopFarm.xcodeproj -scheme DesktopFarm \
   -configuration Debug -derivedDataPath .build/DerivedData build
-
-# 启动
 open .build/DerivedData/Build/Products/Debug/DesktopHarvest.app
+
+# 一键构建 Release 通用二进制并打包 dist/DesktopHarvest-v1.0.0.dmg
+bash scripts/package_dmg.sh
 ```
 
 ### 🧪 运行测试

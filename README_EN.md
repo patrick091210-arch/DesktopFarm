@@ -238,30 +238,46 @@ Because every harvestable `.item` is an ordinary JSON file on disk, a curious pl
 
 ---
 
-## 🚀 Quick Start & Building
+## 📦 Download & Installation
+
+1. Download the latest **`DesktopHarvest-v1.0.0.dmg`** Universal Binary (`arm64` + `x86_64`) from [GitHub Releases](https://github.com/patrick091210-arch/DesktopFarm/releases).
+2. Double-click the `.dmg` to mount it, then drag **`DesktopHarvest.app`** into the **`Applications`** folder shortcut.
+3. Launch the app and look for the **`🌾 120`** icon in your top-right macOS menu bar.
+
+> [!IMPORTANT]
+> **First-Launch Gatekeeper Notice ("Unverified Developer" / "Damaged")**  
+> Because DesktopHarvest is distributed with an ad-hoc code signature without paid Apple Developer notarization, macOS Gatekeeper may quarantine the `.app` when downloaded from a browser. Run the following command in Terminal to clear the quarantine attribute before opening:
+> ```bash
+> sudo xattr -rd com.apple.quarantine /Applications/DesktopHarvest.app
+> ```
+
+---
+
+## 🚀 Quick Start & Building from Source
 
 ### Requirements
 - **macOS 14.0 (Sonoma)** or later
 - **Xcode 16.0+** with Swift 6 toolchain (`Apple Swift version 6.0+`)
 - Zero external dependencies (no CocoaPods, no external SwiftPM packages, no Homebrew tools required)
 
-### Build & Run from Terminal
+### Build, Run & Package DMG from Terminal
 
 ```bash
 # 1. Clone the repository
 git clone https://github.com/patrick091210-arch/DesktopFarm.git
 cd DesktopFarm
 
-# 2. Build the Debug app bundle
+# 2. Build & launch Debug app bundle
 DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
   xcodebuild -project DesktopFarm.xcodeproj \
   -scheme DesktopFarm \
   -configuration Debug \
   -derivedDataPath .build/DerivedData \
   build
-
-# 3. Launch DesktopHarvest.app
 open .build/DerivedData/Build/Products/Debug/DesktopHarvest.app
+
+# 3. Package Universal Release DMG (dist/DesktopHarvest-v1.0.0.dmg)
+bash scripts/package_dmg.sh
 ```
 
 ### Run the 53 Automated Unit Tests (Isolated Sandbox)

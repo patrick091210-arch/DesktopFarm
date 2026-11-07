@@ -1,0 +1,94 @@
+name: Release DMG
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Release version (e.g. 1.0.0)"
+        required: false
+        default: "1.0.0"
+
+permissions:
+  contents: write
+
+jobs:
+  test-and-package:
+    name: Test & Package Universal Release DMG
+    runs-on: macos-15
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Select Xcode
+        run: |
+          if [ -d "/Applications/Xcode.app/Contents/Developer" ]; then
+            sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
+          fi
+          xcodebuild -version
+          swift --version
+
+      - name: Run 53 Unit Tests in Isolated Sandbox
+        env:
+          DESKTOP_HARVEST_ROOT: ${{ runner.temp }}/DesktopHarvestTestFarm
+          DESKTOP_HARVEST_SUPPORT: ${{ runner.temp }}/DesktopHarvestTestSupport
+        run: |
+          mkdir -p "$DESKTOP_HARVEST_ROOT" "$DESKTOP_HARVEST_SUPPORT"
+          xcodebuild \
+            -project DesktopFarm.xcodeproj \
+            -scheme DesktopFarm \
+            -configuration Debug \
+            -derivedDataPath .build/DerivedData \
+            test
+
+      - name: Determine Release Version
+        id: meta
+        run: |
+          if [[ "${{ github.ref_type }}" == "tag" ]]; then
+            RAW_VER="${GITHUB_REF_NAME#v}"
+          elif [[ -n "${{ github.event.inputs.version }}" ]]; then
+            RAW_VER="${{ github.event.inputs.version }}"
+            RAW_VER="${RAW_VER#v}"
+          else
+            RAW_VER="1.0.0"
+          fi
+          echo "version=${RAW_VER}" >> "$GITHUB_OUTPUT"
+          echo "tag=v${RAW_VER}" >> "$GITHUB_OUTPUT"
+
+      - name: Package Release DMG & SHA-256 Checksum
+        env:
+          VERSION: ${{ steps.meta.outputs.version }}
+        run: |
+          bash scripts/package_dmg.sh
+          ls -lh dist/
+
+      - name: Upload DMG Artifact (Workflow Run)
+        uses: actions/upload-artifact@v4
+        with:
+          name: DesktopHarvest-v${{ steps.meta.outputs.version }}-macOS
+          path: |
+            dist/DesktopHarvest-v${{ steps.meta.outputs.version }}.dmg
+            dist/DesktopHarvest-v${{ steps.meta.outputs.version }}.dmg.sha256
+
+      - name: Create GitHub Release & Upload Assets
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: "🌾 DesktopHarvest ${{ github.ref_name }}"
+          generate_release_notes: true
+          body: |
+            ## 📦 下载与安装 (Installation)
+
+            1. 下载下方的 **`DesktopHarvest-${{ github.ref_name }}.dmg`** 安装包并双击挂载。
+            2. 将 **`DesktopHarvest.app`** 拖入 **`Applications（应用程序）`** 文件夹。
+            3. 由于本项目采用本地 Ad-hoc 签名分发（未交纳 Apple 开发者年费公证），首次从浏览器下载打开若遇到 macOS 拦截提示，请在终端运行以下命令解除隔离属性：
+               ```bash
+               sudo xattr -rd com.apple.quarantine /Applications/DesktopHarvest.app
+               ```
+            4. 启动后请查看屏幕右上角状态栏的 **`🌾`** 图标！
+          files: |
+            dist/DesktopHarvest-v${{ steps.meta.outputs.version }}.dmg
+            dist/DesktopHarvest-v${{ steps.meta.outputs.version }}.dmg.sha256

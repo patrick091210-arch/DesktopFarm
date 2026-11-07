@@ -1,5 +1,8 @@
 .build/
 DerivedData/
+dist/
+*.dmg
+*.sha256
 *.xcuserstate
 xcuserdata/
 .DS_Store
@@ -9,4 +12,5 @@ __pycache__/
 .dsh-project-memory/
 .mobilebuildmcp/
 环境安装报告.md
+
 

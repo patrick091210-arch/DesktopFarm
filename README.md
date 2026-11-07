@@ -14,6 +14,8 @@
 
 [English](README_EN.md) | 简体中文
 
+### [🌐 访问官方网站 (互动试玩)](https://patrick091210-arch.github.io/DesktopFarm/) · [📥 直接下载最新版 DMG](https://github.com/patrick091210-arch/DesktopFarm/releases/latest/download/DesktopHarvest.dmg) · [📦 查看所有 Releases](https://github.com/patrick091210-arch/DesktopFarm/releases)
+
 </div>
 
 ---

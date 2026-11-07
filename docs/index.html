@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DesktopHarvest · 桌面牧场 — Finder 即农场，文件即万物 (macOS 原生桌面农场与桌宠游戏)</title>
+  <meta name="description" content="DesktopHarvest（桌面牧场）是一款零外部依赖、纯 Swift 6 编写的 macOS 原生桌面农场与 AI 桌宠游戏。所有种子、作物、果树、动物与加工厂都是 ~/Desktop/DesktopFarm 下的真实文件与文件夹。" />
+  <meta property="og:title" content="🌾 DesktopHarvest · 桌面牧场 — Finder 即农场，文件即万物" />
+  <meta property="og:description" content="原生 macOS 桌面农场与 AI 桌宠游戏。真实文件系统即世界 · ResourceFork 1Hz 图标重绘 · SpriteKit 透明覆盖层 · HMAC+Inode 防作弊。" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://patrick091210-arch.github.io/DesktopFarm/" />
+  <meta name="theme-color" content="#0b0e14" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230b1410'/%3E%3Ctext x='50' y='68' font-size='60' text-anchor='middle'%3E%F0%9F%8C%BE%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- 1. macOS Frosted Glass Navigation Bar -->
+  <header class="navbar">
+    <div class="navbar-inner">
+      <div class="brand">
+        <span class="brand-icon">🌾</span>
+        <span>DesktopHarvest · 桌面牧场</span>
+        <div class="nav-badges">
+          <span class="badge-pill accent">v1.0.0</span>
+          <span class="badge-pill">macOS 14.0+</span>
+          <span class="badge-pill">Swift 6</span>
+          <span class="badge-pill">Zero Dependencies</span>
+        </div>
+      </div>
+
+      <nav class="nav-links">
+        <a href="#playground">互动试玩</a>
+        <a href="#features">极客特性</a>
+        <a href="#security">安全机制</a>
+        <a href="#install">安装指南</a>
+        <a class="btn-pill" href="https://github.com/patrick091210-arch/DesktopFarm" target="_blank" rel="noopener">
+          <span>GitHub</span>
+          <span id="gh-star-count">★ Star</span>
+        </a>
+        <a class="btn-pill primary" href="https://github.com/patrick091210-arch/DesktopFarm/releases/latest/download/DesktopHarvest.dmg">
+          <span>📥 下载 .dmg</span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- 2. Hero Section + Interactive macOS Finder Mini-Playground -->
+  <main class="container">
+    <section class="hero" id="playground">
+      <div class="hero-left">
+        <div class="hero-eyebrow">
+          <span>🍏 Apple 原生框架打造 · AppKit + SpriteKit + SwiftUI + FSEvents</span>
+        </div>
+        <h1>Finder 即农场，<br />文件即万物。</h1>
+        <p class="hero-subtitle">
+          原生 macOS 桌面农场与 AI 桌宠游戏。所有种子（<code>.seed</code>）、作物（<code>.crop</code>）、果树（<code>.tree</code>）、动物（<code>.pet</code>）与加工厂文件夹都是 <code>~/Desktop/DesktopFarm</code> 里的真实文件——原地写入资源分支实时重绘图标，叠加 30Hz 智能穿透的桌面透明 SpriteKit 精灵层。
+        </p>
+
+        <div class="hero-cta-group">
+          <a class="btn-hero download" href="https://github.com/patrick091210-arch/DesktopFarm/releases/latest/download/DesktopHarvest.dmg">
+            <span>📥 立即下载 DesktopHarvest.dmg</span>
+          </a>
+          <a class="btn-hero secondary" href="https://github.com/patrick091210-arch/DesktopFarm" target="_blank" rel="noopener">
+            <span>💻 查看 Swift 6 源码</span>
+          </a>
+        </div>
+
+        <div class="release-meta">
+          <span>🏷️ <strong id="live-version">最新版本 v1.0.0</strong></span>
+          <span>•</span>
+          <span>📦 <span id="live-size">1.4 MB Universal DMG (arm64 + x86_64)</span></span>
+          <span>•</span>
+          <span>⬇️ <span id="live-downloads">GitHub Release 官方直链</span></span>
+          <span>•</span>
+          <span>✅ 53 项单元测试全通过</span>
+        </div>
+      </div>
+
+      <!-- Right Interactive macOS Desktop & Finder Simulator -->
+      <div class="mac-simulator" aria-label="交互式 macOS 桌面与 Finder 迷你试玩台">
+        <div class="mac-menubar">
+          <div class="mac-menubar-left">
+            <span></span>
+            <strong>Finder</strong>
+            <span>文件</span>
+            <span>编辑</span>
+            <span>显示</span>
+          </div>
+          <div class="mac-menubar-right">
+            <span class="status-agent-pill" id="sim-menu-coins" title="LSUIElement 菜单栏入口">🌾 120</span>
+            <span>100% 🔋</span>
+            <span>22:00</span>
+          </div>
+        </div>
+
+        <!-- Finder Window Slice -->
+        <div class="finder-window">
+          <div class="finder-titlebar">
+            <div class="traffic-lights">
+              <span class="dot red"></span>
+              <span class="dot yellow"></span>
+              <span class="dot green"></span>
+            </div>
+            <div class="finder-path">
+              <span>📁 ~/Desktop/DesktopFarm</span>
+            </div>
+            <span style="font-size: 0.7rem; color: #94a3b8;">FSEvents 实时监听</span>
+          </div>
+
+          <div class="finder-grid">
+            <!-- Card 1: Crop / Watering -->
+            <div class="file-card" id="card-crop" onclick="triggerWateringDemo()">
+              <div class="hud-pill warn" id="crop-hud">💧 缺水 (Moisture 12%)</div>
+              <div class="file-emoji" id="crop-emoji">🌱</div>
+              <div class="file-name" id="crop-name">Wheat_01.crop</div>
+              <div class="file-meta" id="crop-meta">水分 > 15 才生长 · 周期 90s</div>
+              <div class="progress-track">
+                <div class="progress-fill" id="crop-progress" style="width: 32%;"></div>
+              </div>
+            </div>
+
+            <!-- Card 2: Anti-Cheat Clone Test -->
+            <div class="file-card" id="card-apple" onclick="triggerCloneDemo()">
+              <div class="hud-pill ready" id="apple-hud">🔒 HMAC-SHA256 真品</div>
+              <div class="file-emoji" id="apple-emoji">🍎</div>
+              <div class="file-name" id="apple-name">🍎苹果.item</div>
+              <div class="file-meta" id="apple-meta">inode #849201 · 价值 8 金币</div>
+              <div class="progress-track">
+                <div class="progress-fill" id="apple-progress" style="width: 100%;"></div>
+              </div>
+            </div>
+
+            <!-- Card 3: Folder Machine -->
+            <div class="file-card" id="card-machine" onclick="triggerMachineDemo()">
+              <div class="hud-pill" id="machine-hud">⚙️ 拖入 2×🍎 自动加工</div>
+              <div class="file-emoji" id="machine-emoji">📁</div>
+              <div class="file-name" id="machine-name">⚙️果酱加工机/</div>
+              <div class="file-meta" id="machine-meta">配方: 2×🍎 → 🫙苹果酱 (20s)</div>
+              <div class="progress-track">
+                <div class="progress-fill" id="machine-progress" style="width: 0%;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom Desktop Overlay SpriteKit Pasture -->
+        <div class="desktop-overlay-strip">
+          <div style="font-size: 0.74rem; color: #a7f3d0; font-weight: 600;">
+            🐾 桌面透明精灵层 (desktopIconWindow + 1 · 点击桌宠切换 7 态 AI)：
+          </div>
+          <div class="pet-stage">
+            <div class="pet-actor" onclick="cyclePetState(this, '小鸡豆豆')">
+              <span>🐔</span>
+              <span class="pet-bubble">Wander · 🐾 散步中</span>
+            </div>
+            <div class="pet-actor" onclick="cyclePetState(this, '绵羊云朵')">
+              <span>🐑</span>
+              <span class="pet-bubble">Hungry · 🌿 寻觅牧草</span>
+            </div>
+            <div class="pet-actor" onclick="cyclePetState(this, '奶牛团子')">
+              <span>🐄</span>
+              <span class="pet-bubble">Eating · 🥣 食槽进食</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive Experience Buttons -->
+        <div class="sim-controls">
+          <div class="sim-buttons">
+            <button class="sim-btn" type="button" onclick="triggerWateringDemo()">💧 拖水壶浇水</button>
+            <button class="sim-btn" type="button" onclick="triggerCloneDemo()">📋 复制文件防作弊测试 (Cmd+D)</button>
+            <button class="sim-btn" type="button" onclick="triggerMachineDemo()">⚙️ 文件夹机器加工</button>
+          </div>
+          <div class="sim-log" id="sim-console-log">
+            💡 点击上方 3 个微交互按钮或直接点击 Finder 文件图标，体验真实文件系统与游戏引擎的实时联动！
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Apple Bento Grid Feature Wall & Encyclopedia -->
+    <section class="section" id="features">
+      <div class="section-header">
+        <h2>Apple 原生级极客架构与玩法百科</h2>
+        <p>零外部图片与音频依赖，纯 Swift 6 并发安全架构，将 Finder 文件系统变成有机运转的生态牧场。</p>
+      </div>
+
+      <div class="bento-grid">
+        <!-- Bento 1: Real Filesystem & Botany -->
+        <article class="bento-card span-7">
+          <span class="bento-tag">CoreServices FSEvents · 真实文件即生命周期</span>
+          <h3>🌱 一年生作物与多年生果树（水分 &gt; 15 驱动生长）</h3>
+          <p>
+            每一次播种、浇水与收获都是真实的文件读写。支持 Finder 双击浇水、拖拽 <code>💧水壶.tool</code>、点击桌面悬浮气泡，或放置 <code>⚙️自动洒水器.tool</code>（<code>+1.6/s</code> 自动补水）。
+          </p>
+          <table class="mini-table">
+            <thead>
+              <tr>
+                <th>品类与后缀</th>
+                <th>生长 / 结果周期</th>
+                <th>产量与基础售价</th>
+                <th>解锁等级</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>🌾 小麦 <code>.crop</code> / 🌿 牧草 <code>.crop</code></td>
+                <td>小麦 <code>90s</code> · 牧草 <code>60s</code></td>
+                <td>2–3 个（4 金币） / 3 个（2 金币）</td>
+                <td>Lv.1</td>
+              </tr>
+              <tr>
+                <td>🥕 胡萝卜 <code>.crop</code> / 🍓 草莓 <code>.crop</code></td>
+                <td>胡萝卜 <code>150s</code> · 草莓 <code>240s</code></td>
+                <td>2 个（9 金币） / 2–3 个（14 金币）</td>
+                <td>Lv.2 / Lv.3</td>
+              </tr>
+              <tr>
+                <td>🍎 苹果树 <code>.tree</code> / 🍒 樱桃树 <code>.tree</code></td>
+                <td>成树 <code>300s/420s</code> · 结果 <code>180s/240s</code></td>
+                <td>2–4 颗果（8 / 12 金币，收获后退回 🌳）</td>
+                <td>Lv.1 / Lv.4</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="pill-list">
+            <span class="pill-item">.seed 种子包</span>
+            <span class="pill-item">.crop 一年生作物</span>
+            <span class="pill-item">.tree 多年生果树</span>
+            <span class="pill-item">.item 签名产物</span>
+            <span class="pill-item">.pet 自主 AI 桌宠</span>
+            <span class="pill-item">.tool 农具与洒水器</span>
+          </div>
+        </article>
+
+        <!-- Bento 2: Procedural ResourceFork IconWriter -->
+        <article class="bento-card span-5">
+          <span class="bento-tag">IconWriter · 1–3ms 原地重绘</span>
+          <h3>🎨 零闪烁 Resource Fork 动态图标</h3>
+          <p>
+            摒弃有蓝文件夹闪烁缺陷的 <code>NSWorkspace.setIcon</code>，自研 <code>IconWriter</code> 直接构建 <code>icns</code> 二进制并原子写入 <code>com.apple.ResourceFork</code> 扩展属性。
+          </p>
+          <p>
+            无论是 <strong>📦 果蔬收集筐 / 牧场副产品筐</strong> 随物品数量变化的装满程度与金币徽章，还是加工厂每秒旋转的齿轮与进度环，都在后台合并队列中以 1–3ms 无感刷新。
+          </p>
+          <div class="pill-list">
+            <span class="pill-item">setxattr 原子写入</span>
+            <span class="pill-item">复用文件夹 Icon\r</span>
+            <span class="pill-item">📦 智能木筐实时估值</span>
+            <span class="pill-item">16-bit PCM 内存合成音效</span>
+          </div>
+        </article>
+
+        <!-- Bento 3: Folder Factories -->
+        <article class="bento-card span-6">
+          <span class="bento-tag">Folder Machines · 文件夹即加工厂</span>
+          <h3>⚙️ 四大自动化加工厂与隐藏锁机制</h3>
+          <p>
+            把原料拖进对应的文件夹即可自动开工！原料会被移入隐藏的 <code>.processing/</code> 目录锁定（防止中途抽走白嫖），加工完成后弹出高价值成品并奖励 <code>+10 XP</code>：
+          </p>
+          <table class="mini-table">
+            <thead>
+              <tr>
+                <th>加工机文件夹</th>
+                <th>配方输入 → 产物输出</th>
+                <th>耗时</th>
+                <th>成品售价</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>⚙️果酱加工机</code></td>
+                <td>2×🍎 / 2×🍓 / 2×🍒 → 果酱</td>
+                <td><strong>20s</strong></td>
+                <td>36 / 60 / 54 金币</td>
+              </tr>
+              <tr>
+                <td><code>⚙️烘焙面包房</code></td>
+                <td>2×🌾小麦 + 1×🥚鸡蛋 → 🎂蛋糕</td>
+                <td><strong>25s</strong></td>
+                <td>70 金币 (Lv.3)</td>
+              </tr>
+              <tr>
+                <td><code>⚙️乳品发酵桶</code></td>
+                <td>1×🥛牛奶 → 🧀奶酪</td>
+                <td><strong>20s</strong></td>
+                <td>45 金币 (Lv.3)</td>
+              </tr>
+              <tr>
+                <td><code>⚙️纺织机</code></td>
+                <td>1×🧶羊毛 → 🧥毛衣</td>
+                <td><strong>15s</strong></td>
+                <td>65 金币 (Lv.4)</td>
+              </tr>
+            </tbody>
+          </table>
+        </article>
+
+        <!-- Bento 4: Dual Layer + 7-State Pet AI & Economy -->
+        <article class="bento-card span-6">
+          <span class="bento-tag">SpriteKit Overlay + Finder HUD · 双层空间融合</span>
+          <h3>🐾 7 状态自主 AI 桌宠与全自动离线牧场</h3>
+          <p>
+            位于 <code>desktopIconWindow + 1</code> 的透明 <code>NSPanel</code> 支持多显示器与 30Hz 智能鼠标穿透，配合 AppleScript 12Hz 同步 Finder 窗口图标坐标。
+          </p>
+          <p>
+            小鸡（<code>120s</code> 产蛋）、绵羊（<code>200s</code> 产毛）、奶牛（<code>180s</code> 产奶）具备完整 7 态 AI 状态机，当饱食度 <code>&lt; 35</code> 时会自动前往 <code>🥣动物食槽</code> 觅食；搭配 <code>🤖收获小精灵</code>（每 8s 自动采收归筐）、<code>📋订单交付箱</code>（<strong>1.5~1.9 倍溢价</strong>）与最高 <strong>72 小时离线收益结算</strong>（单目录 24 个散落物防爆仓保护）。
+          </p>
+          <div class="pill-list">
+            <span class="pill-item">Idle</span>
+            <span class="pill-item">Wander</span>
+            <span class="pill-item">Hungry (&lt;35)</span>
+            <span class="pill-item">SeekFood</span>
+            <span class="pill-item">Eat</span>
+            <span class="pill-item">Happy</span>
+            <span class="pill-item">Sleep (22:00-06:00)</span>
+          </div>
+        </article>
+
+        <!-- Bento 5: FarmSandbox 4-Layer Security Guarantee -->
+        <article class="bento-card span-12" id="security">
+          <span class="bento-tag">FarmSandbox.validateGameFile · 绝对文件安全铁律</span>
+          <h3>🔒 四重内核级文件沙盒护栏：绝不触碰任何个人桌面文件</h3>
+          <p>
+            在真实桌面文件夹里玩游戏，文件安全是最高红线。DesktopHarvest 中任何文件的改写、重命名、移动或删除，都必须先通过 <code>FarmSandbox.validateGameFile</code> 的 4 重严格校验，并采用 <code>unlink(2)</code>（内核级禁止删除目录）与 <code>renamex_np(RENAME_EXCL)</code> 执行：
+          </p>
+          <div class="sandbox-rules">
+            <div class="rule-box">
+              <div class="rule-num">LAYER 01 · 路径边界</div>
+              <h4>符号链接真实路径校验</h4>
+              <p>先执行 <code>resolvingSymlinksInPath</code>，解析后的真实物理路径必须严格位于 <code>~/Desktop/DesktopFarm/</code> 目录内部。</p>
+            </div>
+            <div class="rule-box">
+              <div class="rule-num">LAYER 02 · 描述符校验</div>
+              <h4>普通文件与 256KB 上限</h4>
+              <p>使用 <code>O_RDONLY | O_NOFOLLOW | O_NONBLOCK</code> 打开句柄并 <code>fstat</code>，拒绝符号链接/管道/设备文件，且限制单文件最大 256KB 防 OOM。</p>
+            </div>
+            <div class="rule-box">
+              <div class="rule-num">LAYER 03 · 后缀白名单</div>
+              <h4>6 类专属游戏后缀</h4>
+              <p>严格仅允许操作 <code>.seed</code>、<code>.crop</code>、<code>.tree</code>、<code>.item</code>、<code>.pet</code>、<code>.tool</code> 六种后缀文件。</p>
+            </div>
+            <div class="rule-box">
+              <div class="rule-num">LAYER 04 · 魔数签名</div>
+              <h4>DesktopHarvest/1 格式头</h4>
+              <p>JSON 内容必须包含合法的 <code>"format": "DesktopHarvest/1"</code> 头签名；您放入农场目录的个人笔记、照片或文件夹将原封不动保留。</p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- 4. 3-Step Installation Guide & Gatekeeper One-Click Bypass -->
+    <section class="section" id="install">
+      <div class="section-header">
+        <h2>📦 三步轻松安装指南</h2>
+        <p>支持 Apple Silicon (M1/M2/M3/M4) 与 Intel 全系 Mac，要求 macOS 14.0 Sonoma 或更高版本。</p>
+      </div>
+
+      <div class="install-grid">
+        <div class="bento-card">
+          <div class="step-badge">1</div>
+          <h3>下载并拖入 Applications</h3>
+          <p>
+            点击下方按钮下载最新版 <code>DesktopHarvest.dmg</code>，双击挂载镜像后将 <code>DesktopHarvest.app</code> 拖入右侧的 <code>Applications（应用程序）</code> 文件夹。
+          </p>
+          <a class="btn-pill primary" href="https://github.com/patrick091210-arch/DesktopFarm/releases/latest/download/DesktopHarvest.dmg">
+            📥 下载 DesktopHarvest.dmg
+          </a>
+        </div>
+
+        <div class="bento-card">
+          <div class="step-badge">2</div>
+          <h3>未公证应用一键放行（如遇拦截）</h3>
+          <p>
+            由于本开源项目采用本地 Ad-hoc 签名且未交纳 Apple 开发者公证年费，首次打开若提示「无法验证开发者」或「已损坏」，请复制以下命令在终端运行：
+          </p>
+          <div class="cmd-box">
+            <code>xattr -cr /Applications/DesktopHarvest.app</code>
+            <button class="copy-btn" type="button" onclick="copyTerminalCmd('xattr -cr /Applications/DesktopHarvest.app', this)">一键复制</button>
+          </div>
+        </div>
+
+        <div class="bento-card">
+          <div class="step-badge">3</div>
+          <h3>从右上角状态栏 🌾 启动牧场</h3>
+          <p>
+            本应用采用 <code>LSUIElement</code> 无 Dock 图标设计，不占用程序坞空间。启动后请点击屏幕右上角菜单栏的 <strong>🌾 120</strong> 图标打开控制面板，并允许访问「桌面文件夹」与「自动化 → Finder」。
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>
+        🌾 <strong>DesktopHarvest · 桌面牧场</strong> — Built with pure Swift 6, AppKit, SpriteKit, SwiftUI &amp; CoreServices FSEvents.<br />
+        <a href="https://github.com/patrick091210-arch/DesktopFarm" target="_blank" rel="noopener">GitHub Repository</a> ·
+        <a href="https://github.com/patrick091210-arch/DesktopFarm/releases" target="_blank" rel="noopener">Releases</a> ·
+        Released under the MIT License.
+      </p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

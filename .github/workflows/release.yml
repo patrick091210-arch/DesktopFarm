@@ -90,5 +90,7 @@ jobs:
                ```
             4. 启动后请查看屏幕右上角状态栏的 **`🌾`** 图标！
           files: |
+            dist/DesktopHarvest.dmg
+            dist/DesktopHarvest.dmg.sha256
             dist/DesktopHarvest-v${{ steps.meta.outputs.version }}.dmg
             dist/DesktopHarvest-v${{ steps.meta.outputs.version }}.dmg.sha256

@@ -35,6 +35,9 @@ VERSION="${VERSION:-1.0.0}"
 DMG_NAME="DesktopHarvest-v${VERSION}.dmg"
 DMG_PATH="$DIST_DIR/$DMG_NAME"
 SHA_PATH="${DMG_PATH}.sha256"
+LATEST_DMG_NAME="DesktopHarvest.dmg"
+LATEST_DMG_PATH="$DIST_DIR/$LATEST_DMG_NAME"
+LATEST_SHA_PATH="${LATEST_DMG_PATH}.sha256"
 
 echo "=================================================================="
 echo "🌾 Packaging DesktopHarvest v${VERSION} (Release DMG)"
@@ -183,9 +186,11 @@ fi
 rm -rf "$STAGING_DIR"
 
 # Generate SHA-256 checksum file (relative filename for portable `shasum -a 256 -c`)
+cp -f "$DMG_PATH" "$LATEST_DMG_PATH"
 (
   cd "$DIST_DIR"
   shasum -a 256 "$DMG_NAME" > "$SHA_PATH"
+  shasum -a 256 "$LATEST_DMG_NAME" > "$LATEST_SHA_PATH"
 )
 
 DMG_SIZE="$(du -h "$DMG_PATH" | awk '{print $1}')"
@@ -193,8 +198,9 @@ SHA_VALUE="$(awk '{print $1}' "$SHA_PATH")"
 
 echo "=================================================================="
 echo "✅ Release DMG Successfully Packaged!"
-echo "   📦 DMG File : $DMG_PATH"
-echo "   📏 File Size: $DMG_SIZE"
-echo "   🔐 SHA-256  : $SHA_VALUE"
-echo "   📄 Checksum : $SHA_PATH"
+echo "   📦 DMG File (Versioned): $DMG_PATH"
+echo "   📦 DMG File (Latest)   : $LATEST_DMG_PATH"
+echo "   📏 File Size           : $DMG_SIZE"
+echo "   🔐 SHA-256             : $SHA_VALUE"
+echo "   📄 Checksum            : $SHA_PATH"
 echo "=================================================================="

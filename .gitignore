@@ -1,0 +1,12 @@
+.build/
+DerivedData/
+*.xcuserstate
+xcuserdata/
+.DS_Store
+__pycache__/
+*.pyc
+.dsh-progress/
+.dsh-project-memory/
+.mobilebuildmcp/
+环境安装报告.md
+

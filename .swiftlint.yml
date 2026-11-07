@@ -1,0 +1,58 @@
+# Base SwiftLint configuration for Desktop Farm.
+# Scoped to a SwiftUI/AppKit macOS game: visual and controller code runs longer
+# than library code, so size limits sit above SwiftLint's defaults.
+# Rule changes belong in a PR so the reason is reviewable.
+
+excluded:
+  - .build
+  - DerivedData
+  - .dsh-verify
+  - .swiftpm
+
+disabled_rules:
+  - trailing_comma
+  - todo
+
+opt_in_rules:
+  - empty_count
+  - explicit_init
+  - first_where
+  - implicit_return
+  - operator_usage_whitespace
+  - redundant_nil_coalescing
+  - sorted_first_last
+  - toggle_bool
+  - unneeded_parentheses_in_closure_argument
+  - yoda_condition
+
+line_length:
+  warning: 120
+  error: 160
+  ignores_comments: true
+
+file_length:
+  warning: 500
+  error: 800
+
+type_body_length:
+  warning: 300
+  error: 500
+
+function_body_length:
+  warning: 60
+  error: 100
+
+cyclomatic_complexity:
+  warning: 15
+  error: 25
+
+identifier_name:
+  min_length:
+    warning: 2
+    error: 1
+  excluded:
+    - id
+    - x
+    - y
+
+reporter: xcode

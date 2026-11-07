@@ -1,0 +1,15 @@
+# Base SwiftFormat configuration for Desktop Farm.
+# SwiftFormat config files take command-line options verbatim, one per line.
+# Formatting is a check-only gate here; run `swiftformat <path>` to apply.
+
+--swift-version 6.0
+--indent 4
+--linebreaks lf
+--maxwidth 120
+--wraparguments beforefirst
+--wrapcollections beforefirst
+--stripunusedargs closure-only
+--trimwhitespace always
+--self remove
+--redundanttype inferred
+--emptybraces spaced
